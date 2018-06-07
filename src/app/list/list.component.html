@@ -1,0 +1,38 @@
+<div>
+  <h4 id="rem">You have {{remaining()}} / {{items.length}} Task(s)</h4>
+  Search Todo List:<input id="search" class="task" [(ngModel)]="searchText" placeholder="Enter Search">
+  <hr>
+</div>
+
+<div (keypress)=" newItem && priority && keyadd($event)">
+<!-- <label for="item"></label> -->
+Enter item to add: <input type="text" [(ngModel)]="newItem" class="task">
+<select [(ngModel)]="priority" name="priority">
+  <option value="Critical">Critical</option>
+  <option value="High">High</option>
+  <option value="Low">Low</option>
+</select>
+<button (click)="newItem && priority && addItem()" type="submit" class="addItem">Add</button>
+</div>
+
+
+<table>
+  <tr class="space" *ngFor="let item of items | filter: searchText; let i = index" [ngClass]="{'active': item.active, 'animated zoomIn': change}">
+    <td>
+      <span (click)="editItem(i)" class="edit-item"><b *ngIf="some!=i">Edit</b><b *ngIf="some==i">Save</b></span>
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="item.name" *ngIf="some==i" id="newIp"/>
+      <span (click)="toggleClass(item)" *ngIf="some!=i">{{item.name}}</span>
+    </td>
+    <td>
+      <span class="date">{{currentDate | date:'MMM dd, y'}}</span>
+    </td>
+    <td [ngClass]="{darkG: item.priority === 'Critical', medG: item.priority === 'High', lightG: item.priority === 'Low'}">
+      <span>{{item.priority}}</span>
+    </td>
+    <td>
+      <span (click)="deleteItem(i)" class="delete-item">X</span>
+    </td>
+  </tr>
+</table>
